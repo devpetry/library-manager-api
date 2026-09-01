@@ -1,5 +1,6 @@
 package com.devpetry.library_manager_api.controller;
 
+import com.devpetry.library_manager_api.dto.LivroRequestDTO;
 import com.devpetry.library_manager_api.model.LivroEntity;
 import com.devpetry.library_manager_api.service.LivroService;
 import org.springframework.http.ResponseEntity;
@@ -16,23 +17,24 @@ public class LivroController {
     }
 
     @GetMapping(path = "/livros")
-    ResponseEntity<List<LivroEntity>> listarLivros() {
-        return ResponseEntity.ok(livroService.listarTodos());
+    ResponseEntity<List<LivroEntity>> buscarLivros() {
+        return ResponseEntity.ok(livroService.buscarTodos());
     }
 
-    @GetMapping(path = "/livros/{id}")
-    ResponseEntity<LivroEntity> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(livroService.buscarPorId(id));
+    @GetMapping(path = "/livros/{livroId}")
+    ResponseEntity<LivroEntity> buscarLivroPorId(@PathVariable Long livroId) {
+        return ResponseEntity.ok(livroService.buscarPorId(livroId));
     }
 
     @PostMapping(path = "/livros")
-    ResponseEntity<LivroEntity> cadastrarLivro(@RequestBody LivroEntity livroEntity) {
-        return ResponseEntity.ok(livroService.salvar(livroEntity));
+    ResponseEntity<LivroEntity> cadastrarLivro(@RequestBody LivroRequestDTO dto) {
+        LivroEntity livroSalvo = livroService.salvar(dto);
+        return ResponseEntity.ok(livroSalvo);
     }
 
-    @DeleteMapping(path = "/livros/{id}")
-    ResponseEntity<Void> deletarLivro(@PathVariable Long id) {
-        livroService.deletarPorId(id);
+    @DeleteMapping(path = "/livros/{livroId}")
+    ResponseEntity<Void> deletarLivro(@PathVariable Long livroId) {
+        livroService.deletarPorId(livroId);
         return ResponseEntity.noContent().build();
     }
 }

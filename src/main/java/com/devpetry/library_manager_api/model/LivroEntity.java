@@ -9,22 +9,26 @@ import java.time.LocalDate;
 public class LivroEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long  id;
+    private Long  livroId;
     private String titulo;
-    private String autor;
+    @ManyToOne
+    @JoinColumn(name = "autor_id")
+    private AutorEntity autor;
     private LocalDate dataCadastro = LocalDate.now();
 
     public LivroEntity(){}
 
-    public LivroEntity(String titulo, String autor, LocalDate dataCadastro){
+    public LivroEntity(String titulo, AutorEntity autor){
         this.titulo = titulo;
         this.autor = autor;
-        this.dataCadastro = dataCadastro;
+        // dataCadastro já é LocalDate.now() por padrão.
     }
 
-    public Long getId() {
-        return id;
+    public Long getLivroId() {
+        return livroId;
     }
+
+    // Sem setLivroId() pois esse valor não deve ser alterado.
 
     public String getTitulo() {
         return titulo;
@@ -34,11 +38,11 @@ public class LivroEntity{
         this.titulo = titulo;
     }
 
-    public String getAutor() {
+    public AutorEntity getAutor() {
         return autor;
     }
 
-    public void setAutor(String autor) {
+    public void setAutor(AutorEntity autor) {
         this.autor = autor;
     }
 
@@ -46,7 +50,5 @@ public class LivroEntity{
         return dataCadastro;
     }
 
-    public void setDataCadastro(LocalDate dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
+    // Sem setDataCadastro() pois esse valor não deve ser alterado.
 }
